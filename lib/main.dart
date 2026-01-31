@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test_task_effective_mobile/presentation/favourite_screen.dart';
 import 'package:test_task_effective_mobile/presentation/main_screen.dart';
 import 'package:test_task_effective_mobile/resources/strings.dart';
+import 'package:test_task_effective_mobile/state/app_state.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+      ChangeNotifierProvider(
+          create: (context) => AppState(),
+          child: MyApp()
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
