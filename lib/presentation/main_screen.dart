@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:test_task_effective_mobile/presentation/characters_screen.dart';
 import 'package:test_task_effective_mobile/presentation/favourite_screen.dart';
 import 'package:test_task_effective_mobile/state/app_state.dart';
@@ -17,16 +16,12 @@ class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
 
   @override
-  void initState() {
-    Provider.of<AppState>(context, listen: false).getAllCharacters();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: currentIndex == 0 ? Text(Strings.homeLabel) : Text(Strings.favouriteLabel)
+        title: currentIndex == 0
+            ? Text(Strings.homeLabel)
+            : Text(Strings.favouriteLabel),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[

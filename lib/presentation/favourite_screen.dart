@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../resources/strings.dart';
 import '../state/app_state.dart';
 import 'character_card.dart';
 
@@ -12,39 +12,87 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
+  final appState = AppState();
+
+  void sortByName() {
+    Provider.of<AppState>(context, listen: false).sortFavouriteByName();
+  }
+
+  void sortByStatus() {
+    Provider.of<AppState>(context, listen: false).sortFavouriteByStatus();
+  }
+
+  void sortByLocation() {
+    Provider.of<AppState>(context, listen: false).sortFavouriteByLocation();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<AppState>(context, listen: false).getFavouriteCharacters();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: Consumer<AppState>(
-          builder: (context, state, child) {
-            return Column(
+    return Container(
+      child: Consumer<AppState>(
+        builder: (context, state, child) {
+          return Container(
+            child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: PopupMenuButton(
-                    icon: Icon(Icons.sort),
-                      itemBuilder: (context) {
-                        return [
-                          PopupMenuItem(child: Text('Sort Option 1'))
-                        ];
-                      }
+                Container(
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(Strings.sort),
+                          PopupMenuButton(
+                            icon: Icon(Icons.sort),
+                            tooltip: Strings.sort,
+                            itemBuilder: (context) {
+                              return [
+                                PopupMenuItem(
+                                  child: Text(Strings.sortByName),
+                                  onTap: () {
+                                    sortByName();
+                                  },
+                                ),
+                                PopupMenuItem(
+                                  child: Text(Strings.sortByStatus),
+                                  onTap: () {
+                                    sortByStatus();
+                                  },
+                                ),
+                                PopupMenuItem(
+                                  child: Text(Strings.sortByLocation),
+                                  onTap: () {
+                                    sortByLocation();
+                                  },
+                                )
+                              ];
+                            },
+                          )
+                        ],
+                      )
                   ),
                 ),
-                ListView.builder(
-                  itemCount: state.favouriteCharacters.length,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return CharacterCard(
-                      character: state.favouriteCharacters[index],
-                    );
-                  },
-                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.favouriteCharacters.length,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return CharacterCard(
+                        character: state.favouriteCharacters[index],
+                      );
+                    },
+                  ),
+                )
               ],
-            );
-          },
-        ),
+            )
+          );
+        },
       ),
     );
   }

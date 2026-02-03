@@ -1,7 +1,5 @@
 import 'package:test_task_effective_mobile/domain/status.dart';
 
-import 'location.dart';
-
 class Character {
   String image;
   String name;
@@ -16,14 +14,26 @@ class Character {
     required this.species,
     required this.status,
     required this.location,
-    this.isFavourite = false
+    this.isFavourite = false,
   });
 
+  Character.favourite(Character character)
+    : this(
+        image: character.image,
+        name: character.name,
+        species: character.species,
+        status: character.status,
+        location: character.location,
+        isFavourite: !character.isFavourite,
+      );
 
-  Character.favourite(Character character) : this(image: character.image, name: character.name, species: character.species, status: character.status, location: character.location, isFavourite: !character.isFavourite);
   @override
   String toString() {
-    return 'Character{image: $image, name: $name, status: ${status.statusText}';
+    return 'Character{image: $image, name: $name, status: ${status.statusText}, isFavourite :${isFavourite}';
   }
 
+  @override
+  bool operator ==(Object other) {
+    return this.name == (other as Character).name;
+  }
 }

@@ -9,5 +9,9 @@ class Strings {
   static const favourite = 'Избранное: ';
   static const favouriteLabel = 'Избранное';
   static const homeLabel = 'Главная';
+  static const sortByName = 'Сортировка по имени';
+  static const sortByStatus = 'Сортировка по статусу';
+  static const sortByLocation = 'Сортировка по локации';
+  static const sort = 'Сортировка';
 
 }
