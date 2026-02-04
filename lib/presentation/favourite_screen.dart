@@ -30,6 +30,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   void initState() {
     super.initState();
     Provider.of<AppState>(context, listen: false).getFavouriteCharacters();
+    Provider.of<AppState>(context, listen: false).getAllCharacters();
   }
 
   @override

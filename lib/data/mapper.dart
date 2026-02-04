@@ -20,6 +20,7 @@ class Mapper {
       species: characterEntity.species,
       status: Status.unknown,
       location: characterEntity.location,
+      isFavourite: true
     );
   }
 

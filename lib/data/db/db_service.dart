@@ -29,7 +29,7 @@ class DBService {
     await db.insert(
       CharacterEntity.table,
       characterEntity.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      conflictAlgorithm: ConflictAlgorithm.abort,
     );
   }
 
@@ -40,18 +40,20 @@ class DBService {
     );
     return [
       for (final {
-      'id': id as int,
+      //'id': id as int,
       'image': image as String,
       'name': name as String,
       'species': species as String,
       'location': location as String,
+      'status': status as String
       }
       in charactersMap)
         CharacterEntity.of(
           image: image,
           name: name,
           species: species,
-          location: location
+          location: location,
+          status: status
         ),
     ];
   }

@@ -8,6 +8,7 @@ class CharacterEntity {
   String species;
   //Status status;
   String location;
+  String status;
 
   static const dbFileName = 'character_database.db';
   static const table = 'characters';
@@ -16,11 +17,12 @@ class CharacterEntity {
       //'id INTEGER PRIMARY KEY,'
       'image TEXT,'
       'species TEXT,'
-      'location TEXT'
+      'location TEXT,'
+      'status TEXT'
       ')';
 
   CharacterEntity.of({required this.image, required this.name, required this.species,
-    required this.location});
+    required this.location, required this.status});
 
   Map<String, Object?> toMap() {
     return {
@@ -28,6 +30,7 @@ class CharacterEntity {
       'image': image,
       'species': species,
       'location': location,
+      'status': status
     };
   }
 

@@ -12,38 +12,50 @@ import 'mapper.dart';
 
 class RepositoryImpl implements Repository {
   final _resultsKey = 'results';
+  final _infoKey = 'info';
   final _nameKey = 'name';
   final _imageKey = 'image';
   final _statusKey = 'status';
   final _speciesKey = 'species';
   final _locationKey = 'location';
+  final _nextPageKey = 'next';
+  final _prevPageKey = 'prev';
   final api = Api();
   final mapper = Mapper();
   final sharedPrefs = AppSharedPreferences();
+  String _urlForGetCharacters = 'https://rickandmortyapi.com/api/character';
+  List<Character> _charactersList = [];
 
   @override
   Future<void> addToFavourite(Character character) async {
     if (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS) {
-      await DBService.instance().insert(
-        CharacterEntity.of(
-          image: character.image,
-          name: character.name,
-          species: character.species,
-          location: character.location,
-        ),
-      );
+      print('Insert into table ${character}');
+      if (!character.isFavourite) {
+        await DBService.instance().insert(
+          CharacterEntity.of(
+            image: character.image,
+            name: character.name,
+            species: character.species,
+            location: character.location,
+            status: character.status.statusText,
+          ),
+        );
+      } else {
+        await DBService.instance().delete(character.name);
+      }
     } else {
       AppSharedPreferences shared = AppSharedPreferences();
-      shared.addFavouriteCharacterToSharedPref(character);
+      await shared.addFavouriteCharacterToSharedPref(character);
     }
   }
 
   @override
-  Future<List<Character>> getAllCharacters() async {
+  Future<List<Character>> loadCharacters() async {
     List<Character> characters = [];
     try {
-      var response = await api.getAllCharacters();
+      var response = await api.getCharacters(_urlForGetCharacters);
+
       if (response.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(response.body);
         var list = data[_resultsKey];
@@ -62,10 +74,13 @@ class RepositoryImpl implements Repository {
           );
           characters.add(character);
         }
+        String nextPage = data[_infoKey][_nextPageKey];
+        _urlForGetCharacters = nextPage;
       }
     } catch (e) {
       return characters;
     }
+    _charactersList.addAll(characters);
     return characters;
   }
 
@@ -79,5 +94,10 @@ class RepositoryImpl implements Repository {
     } else {
       return sharedPrefs.getFavouriteCharactersListFromSharedPref();
     }
+  }
+
+  @override
+  Future<List<Character>> getAllCharacters() async {
+    return _charactersList;
   }
 }

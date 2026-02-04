@@ -17,17 +17,17 @@ class AppSharedPreferences {
       favourites.add(Character.favourite(character));
     }
     prefs.remove(_favourite);
-    saveFavouriteCharactersListToSharedPref(favourites);
+    await saveFavouriteCharactersListToSharedPref(favourites);
   }
 
   Future<void> saveFavouriteCharactersListToSharedPref(List<Character> characters) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_favourite, mapper.encodeCharacters(characters));
+    await prefs.setString(_favourite, mapper.encodeCharacters(characters));
   }
 
   Future<List<Character>> getFavouriteCharactersListFromSharedPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final charactersString = prefs.getString(_favourite);
+    final charactersString = await prefs.getString(_favourite);
     return mapper.decodeCharacters(charactersString);
   }
 

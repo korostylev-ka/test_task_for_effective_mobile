@@ -10,14 +10,12 @@ import 'data/db/db_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    DBService.instance();
+  if (defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS) {
+    DBService.instance().init();
   }
   runApp(
-      ChangeNotifierProvider(
-          create: (context) => AppState(),
-          child: MyApp()
-      )
+    ChangeNotifierProvider(create: (context) => AppState(), child: MyApp()),
   );
 }
 
@@ -31,14 +29,12 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MainScreen(),
-        '/favourite': (context) => FavouriteScreen()
+        '/favourite': (context) => FavouriteScreen(),
       },
       title: Strings.projectTitle,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      )
+      ),
     );
   }
 }
-
-
