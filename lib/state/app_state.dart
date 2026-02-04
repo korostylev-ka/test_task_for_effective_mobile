@@ -11,33 +11,37 @@ class AppState extends ChangeNotifier {
   List<Character> _favouriteCharacters = [];
   List<Character> get favouriteCharacters => _favouriteCharacters;
 
+
+  Future<void> init() async {
+    if (_characters.isEmpty) {
+      loadCharacters();
+      getFavouriteCharacters();
+
+    }
+  }
   Future<List<Character>> getAllCharacters() async {
-    loadingState.isLoading = true;
-    await repository.loadCharacters();
-    _characters = await repository.getAllCharacters();
+    _characters =  await repository.getAllCharacters();
     for (int i = 0; i < _characters.length; i++) {
       if (_favouriteCharacters.contains(_characters[i])) {
         _characters[i] = Character.favourite(_characters[i]);
       }
     }
-    loadingState.isLoading = false;
     notifyListeners();
-    return characters;
+    return _characters;
   }
 
-  // Future<List<Character>> getAllCharacters() async {
-  //   loadingState.isLoading = true;
-  //   await Future.delayed(Duration(seconds: 4));
-  //   _characters = await repository.loadCharacters();
-  //   for (int i = 0; i < _characters.length; i++) {
-  //     if (_favouriteCharacters.contains(_characters[i])) {
-  //       _characters[i] = Character.favourite(_characters[i]);
-  //     }
-  //   }
-  //   loadingState.isLoading = false;
-  //   notifyListeners();
-  //   return characters;
-  // }
+  Future<void> loadCharacters() async {
+    loadingState.isLoading = true;
+    var newCharacters = await repository.loadCharacters();
+    for (int i = 0; i < newCharacters.length; i++) {
+      if (_favouriteCharacters.contains(newCharacters[i])) {
+        newCharacters[i] = Character.favourite(newCharacters[i]);
+      }
+    }
+    _characters.addAll(newCharacters);
+    loadingState.isLoading = false;
+    notifyListeners();
+  }
 
   Future<List<Character>> getFavouriteCharacters() async {
     _favouriteCharacters = await repository.getFavouriteCharacters();

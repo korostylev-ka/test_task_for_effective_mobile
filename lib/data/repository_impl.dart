@@ -30,7 +30,6 @@ class RepositoryImpl implements Repository {
   Future<void> addToFavourite(Character character) async {
     if (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS) {
-      print('Insert into table ${character}');
       if (!character.isFavourite) {
         await DBService.instance().insert(
           CharacterEntity.of(

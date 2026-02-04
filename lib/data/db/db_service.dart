@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:test_task_effective_mobile/data/db/character_entity.dart';
 import 'package:path/path.dart';
+import 'package:test_task_effective_mobile/domain/status.dart';
 
 class DBService {
   late final Future<Database> database;

@@ -12,6 +12,7 @@ class CharactersScreen extends StatefulWidget {
 
 class _CharactersScreenState extends State<CharactersScreen> {
   final scrollController = ScrollController();
+  final appState = AppState();
 
   @override
   void initState() {
@@ -19,12 +20,15 @@ class _CharactersScreenState extends State<CharactersScreen> {
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent ==
           scrollController.offset) {
-        Provider.of<AppState>(context, listen: false).getAllCharacters();
+        Provider.of<AppState>(context, listen: false).loadCharacters();
+        Provider.of<AppState>(context, listen: false).getFavouriteCharacters();
+
 
       }
     });
-    Provider.of<AppState>(context, listen: false).getAllCharacters();
-    Provider.of<AppState>(context, listen: false).getFavouriteCharacters();
+    Provider.of<AppState>(context, listen: false).init();
+    //Provider.of<AppState>(context, listen: false).getFavouriteCharacters();
+
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test_task_effective_mobile/presentation/characters_screen.dart';
 import 'package:test_task_effective_mobile/presentation/favourite_screen.dart';
 import 'package:test_task_effective_mobile/state/app_state.dart';
@@ -44,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
       ),
-      body: [CharactersScreen(), FavouriteScreen()][currentIndex],
+      body: [CharactersScreen(), FavouriteScreen()][currentIndex]
     );
   }
 }

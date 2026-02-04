@@ -26,12 +26,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     Provider.of<AppState>(context, listen: false).sortFavouriteByLocation();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<AppState>(context, listen: false).getFavouriteCharacters();
-    Provider.of<AppState>(context, listen: false).getAllCharacters();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Provider.of<AppState>(context, listen: false).getFavouriteCharacters();
+  //   Provider.of<AppState>(context, listen: false).getAllCharacters();
+  // }
 
   @override
   Widget build(BuildContext context) {

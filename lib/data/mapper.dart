@@ -18,9 +18,9 @@ class Mapper {
       image: characterEntity.image,
       name: characterEntity.name,
       species: characterEntity.species,
-      status: Status.unknown,
+      status: Status.getStatusFromString(characterEntity.status),
       location: characterEntity.location,
-      isFavourite: true
+      isFavourite: true,
     );
   }
 
@@ -39,20 +39,22 @@ class Mapper {
       jsonImageKey: character.image,
       jsonNameKey: character.name,
       jsonSpeciesKey: character.species,
-      jsonStatusKey: character.status.statusText,
+      jsonStatusKey: json.encode(character.status.toString()),
       jsonLocationKey: character.location,
-      jsonIsFavouriteKey: character.isFavourite
+      jsonIsFavouriteKey: character.isFavourite,
     };
   }
 
-  Character mapCharacterFromJson(Map<String, dynamic> json) {
+  Character mapCharacterFromJson(Map<String, dynamic> jsonCharacters) {
     return Character(
-      image: json[jsonImageKey],
-      name: json[jsonNameKey],
-      species: json[jsonSpeciesKey],
-      status: Status.getStatus(json[jsonStatusKey]),
-      location: json[jsonLocationKey],
-      isFavourite: json[jsonIsFavouriteKey]
+      image: jsonCharacters[jsonImageKey],
+      name: jsonCharacters[jsonNameKey],
+      species: jsonCharacters[jsonSpeciesKey],
+      status: Status.getStatusFromString(
+        json.decode(jsonCharacters[jsonStatusKey]),
+      ),
+      location: jsonCharacters[jsonLocationKey],
+      isFavourite: jsonCharacters[jsonIsFavouriteKey],
     );
   }
 
